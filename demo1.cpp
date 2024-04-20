@@ -29,16 +29,16 @@ void welcome() //FUNCTION HEADER
 {
     cout << "Welcome to our Matching Program" << endl;
     cout << "\nYou will enter a phrase and a character!"
-         << "\nAnd we will count how often it appears!";
+         << "\nAnd we will count how often it appears!\n";
 }
 char input(char array[])
 {
     char to_match {};
 
-    cout << "please enter a phrase";
+    cout << "please enter a phrase\n";
     cin.get(array, SIZE, '\n');
     cin.ignore(100, '\n');
-    cout << "please enter a character to check for";
+    cout << "please enter a character to check for\n";
     cin >> to_match;
     cin.ignore(100, '\n');
     return to_match;
@@ -48,7 +48,7 @@ int count_match (char array[], char compare)
 {
     int counter {0};
     size_t length = {strlen(array)};
-    for (int i {0}; 1 < length; i++)
+    for (int i {0}; i < length; i++)
         if (array[i] == compare)
             ++ counter;
     return counter;
