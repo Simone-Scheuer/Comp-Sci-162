@@ -8,37 +8,121 @@ using namespace std;
 const int SIZE = 256;
 
 void print_welcome();
-
-void collect_input(char sentence[SIZE] );
-
+void collect_input(char sentence[] );
 void clear_screen();
-
 void ready_to_go();
-
-void timed_display(char sentence[SIZE], int time);
-
-int compare_phrases(char phrase1[SIZE], char phrase2[SIZE]);
+void timed_display(char sentence[], int time);
+void compare_phrases(char phrase1[], char phrase2[], int& matches, int& words);
 
 int main()
+    // This is the main function that controls the game loop. It uses a loop to repeat the game, and has internal statements to control the dialogue.
 {
     print_welcome();
 
-    char player1_phrase[SIZE] = {0};
-    char player2_phrase[SIZE] = {0};
-    int time{1};
+    int attempts{1};// The amount of guess attempts the user has done.
+    int match_count{0};// The amount of matches, established here, modified by compare_phrases.
+    int word_count{0};// The amount of words, established here, modified by compare_phrases.
+    char player1_phrase[SIZE] = {0};// Player ones phrase, the 'held' phrase that player2s is compared against.
+    char player2_phrase[SIZE] = {0};// Player twos phrase, the 'compared' phrase that is entered second.
+    int time{1}; // The time in seconds that the sentence is displayed for, modified as attempts increase.
+    bool repeat_play = false; // A boolean tracking whether the game will repeat, modified upon failure.
+    bool switch_player = true; // A boolean tracking the players, allowing them to be switched upon failure.
+    char player1_name[SIZE]; // A char array containing player1s name, stored here to avoid having to loop through and 'swap'.
+    char player2_name[SIZE]; //  A char array containing player1s name, stored here to avoid having to loop through and 'swap'.  
 
-    collect_input(player1_phrase);
+    // Collect player names and clear buffers and screen.
+    cout << "Player 1 enter your name: ";
+    cin.get(player1_name,SIZE,'\n');
+    cin.ignore(256, '\n');  
+    cout << "Player 2 enter your name: ";
+    cin.get(player2_name,SIZE,'\n');
+    cin.ignore(256, '\n');  
     clear_screen();
-    ready_to_go();
-    timed_display(player1_phrase, time);
-    clear_screen();
-    collect_input(player2_phrase);
-    int match_count = compare_phrases(player1_phrase, player2_phrase);
-    cout << "you matched " << match_count << " words \n";
+
+    // Initiate an infinite loop to contain the core gameplay.
+    while (1 == 1)
+    {
+        // Reset time and repeating values for subsequent loops.
+        time = 1;
+        repeat_play = false;
+
+        // Check which player is asking and print the correct name based on that.
+        if (switch_player)
+        {
+            cout << "Its " << player1_name << "'s turn to write the starter sentence!\n";
+        }
+        else
+        {
+            cout << "Its " << player2_name << "'s turn to write the starter sentence!\n";
+        }
+
+        // Collect player1 phrase, clear the screen, get approval to continue. 
+        collect_input(player1_phrase);
+        clear_screen();
+        ready_to_go();
+        clear_screen();
+
+        while(repeat_play)
+        {
+            timed_display(player1_phrase, time);
+            clear_screen();
+            if (switch_player = true)
+            {
+                cout << "Its " << player2_name << "'s turn to write their best approximation of the sentence!\n";        
+            }
+            else
+            {
+                cout << "Its " << player1_name << "'s turn to write their best approximation of the sentence!\n";
+            }       
+            collect_input(player2_phrase);
+            compare_phrases(player1_phrase, player2_phrase, match_count, word_count);
+            cout << "You matched " << match_count << " out of " << word_count << " words \n\n";
+
+            if (word_count/2 > match_count)
+            {
+                cout << "not quite half right, try again with a little more time!\n";
+                time ++;
+                attempts ++;
+            }
+
+            else if (word_count/2 <= match_count)
+            {
+                cout << "Great job! half or more right! switch players! \n";
+                if (switch_player = true) 
+                {
+                    switch_player = false;
+                }
+                else
+                {
+                    switch_player = true;
+                }
+                repeat_play = true;
+            }
+
+            else if (attempts == 3) 
+            {
+                cout << "Too many attempts! Jeez you stink at this! Switch players! \n";
+                if (switch_player = true)
+                {
+                    switch_player = false;
+                }
+                else
+                {
+                    switch_player = true;
+                }
+                repeat_play = true;
+
+                ready_to_go();
+                clear_screen();
+
+            }
+        }
+    }
 }
 
 
 void print_welcome()
+    // This function prints the formatted welcome message.
 {
     cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
         << "         Welcome to Simone's spectacular memorization minigame!\n"
@@ -61,14 +145,16 @@ void print_welcome()
 
 
 void collect_input(char sentence[])
+    // This function intakes a char array and modifies it.
 {
-    cout << "please enter a phrase\n";
+    cout << "Please enter the sentence: \n\n";
     cin.get(sentence, SIZE, '\n');
     cin.ignore(256, '\n');
 }
 
 
 void clear_screen()
+    // This function loops to output 100 newlines and fully clear the screen.
 {
     for (int i = 0; i < 100; i++)
     {
@@ -78,6 +164,7 @@ void clear_screen()
 
 
 void ready_to_go()
+    // This function uses a while loop to error check if the user wants to continue.
 {
     char yes = 'x';
     cout << "Enter 'y' when you are ready to continue: ";
@@ -94,14 +181,15 @@ void ready_to_go()
 
 
 void timed_display(char sentence[SIZE], int time)
+    // This is the function that intakes time and a phrase and displays the phrase for the time given.
 {
     cout << "\n\n" <<  sentence << "\n\n";  
     sleep(time);
 }
 
 
-int compare_phrases(char phrase1[SIZE], char phrase2[SIZE])
-    // This is the titular comparing function that iterates through a char array, stops at whitespace, holds that found word, and then repeats the process for every word in the other array.
+void compare_phrases(char phrase1[SIZE], char phrase2[SIZE], int& matches, int& words)
+    // This is the titular comparing function that iterates through two char arrays simultaneously and compares them.
 {
     char held_word[SIZE];
     char compared_word[SIZE];
@@ -111,14 +199,16 @@ int compare_phrases(char phrase1[SIZE], char phrase2[SIZE])
     int phrase1_length = strlen(phrase1);
     int phrase2_length = strlen(phrase2);
     bool word_matched = false;
+    int word_count = 0;
 
-    // This is the begining of the nested loops that collect the first word in a sentance, compare it to every word in another sentence, and then move on to the next word and similarly compare it.
-    for (int i = 0; i < phrase1_length; i ++)
+    // This is the begining of the nested loops that collect the first word in a sentance, and compares it to another array.
+    for (int i = 0; i <= phrase1_length; i ++)
     {
         // Check if the current character is an alphabetic or an apostrophe.
         if (isalpha(phrase1[i]) || phrase1[i] == '\'')
         {
             // If it is, add it to the held word array and increase the held index.
+            phrase1[i] = tolower(phrase1[i]);
             held_word[held_index++] = phrase1[i];
         } 
         // If the character is a space, null, or not alphabetic, it indicates a word end.
@@ -132,6 +222,7 @@ int compare_phrases(char phrase1[SIZE], char phrase2[SIZE])
             {
                 compared_word[0] = '\0';  
                 compared_index = 0;       
+                word_count ++;
 
                 // Start iterating over characters in phrase2.
                 for (int j = 0; j <= phrase2_length && !word_matched; j++)
@@ -140,12 +231,13 @@ int compare_phrases(char phrase1[SIZE], char phrase2[SIZE])
                     if (isalpha(phrase2[j]) || phrase2[j] == '\'')
                     {
                         // Add it to the array.
+                        phrase2[j] = tolower(phrase2[j]);
                         compared_word[compared_index++] = phrase2[j];
                     }
                     // Otherwise, if its not valid, its time to end the word.
                     else if (phrase2[j] == ' ' || phrase2[j] == '\0' || !isalpha(phrase2[j]))
                     {
-                        // Cut off the word.
+                        // Cut off the word and output debugging message.
                         compared_word[compared_index] = '\0';
                         cout << "Comparing held word: [" << held_word << "] with compared word: [" << compared_word << "]\n";
 
@@ -173,8 +265,8 @@ int compare_phrases(char phrase1[SIZE], char phrase2[SIZE])
             }
         }
     }
-
-    return match_count;
+    matches = match_count;
+    words = word_count;
 
 }
 
