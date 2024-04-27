@@ -13,6 +13,7 @@ void clear_screen();
 void ready_to_go();
 void timed_display(char sentence[], int time);
 void compare_phrases(char phrase1[], char phrase2[], int& matches, int& words);
+char collect_continue();
 
 int main()
     // This is the main function that controls the game loop. It uses a loop to repeat the game, and has internal statements to control the dialogue.
@@ -29,6 +30,7 @@ int main()
     bool switch_player = true; // A boolean tracking the players, allowing them to be switched upon failure.
     char player1_name[SIZE]; // A char array containing player1s name, stored here to avoid having to loop through and 'swap'.
     char player2_name[SIZE]; //  A char array containing player1s name, stored here to avoid having to loop through and 'swap'.  
+    char should_loop{'y'}; // A char storing the users choice to exit, allowing quitting functionality.
 
     // Collect player names and clear buffers and screen.
     cout << "Player 1 enter your name: ";
@@ -39,8 +41,8 @@ int main()
     cin.ignore(256, '\n');  
     clear_screen();
 
-    // Initiate an infinite loop to contain the core gameplay.
-    while (1 == 1)
+    // Initiate a loop to contain the core gameplay.
+    while (should_loop == 'y')
     {
         // Reset time and repeating values for subsequent loops.
         time = 1;
@@ -49,11 +51,11 @@ int main()
         // Check which player is asking and print the correct name based on that.
         if (switch_player)
         {
-            cout << "Its " << player1_name << "'s turn to write the starter sentence!\n";
+            cout << "It's " << player1_name << "'s turn to write the starter sentence!\n";
         }
         else
         {
-            cout << "Its " << player2_name << "'s turn to write the starter sentence!\n";
+            cout << "It's " << player2_name << "'s turn to write the starter sentence!\n";
         }
 
         // Collect player1 phrase, clear the screen, get approval to continue. 
@@ -61,34 +63,35 @@ int main()
         clear_screen();
         ready_to_go();
         clear_screen();
-
-        while(repeat_play)
+        
+        // Loop that controls counting attempts and giving messages based on number of tries.
+        while(repeat_play == false)
         {
             timed_display(player1_phrase, time);
             clear_screen();
-            if (switch_player = true)
+            if (switch_player)
             {
-                cout << "Its " << player2_name << "'s turn to write their best approximation of the sentence!\n";        
+                cout << "It's " << player2_name << "'s turn to write their best approximation of the sentence!\n";        
             }
             else
             {
-                cout << "Its " << player1_name << "'s turn to write their best approximation of the sentence!\n";
+                cout << "It's " << player1_name << "'s turn to write their best approximation of the sentence!\n";
             }       
             collect_input(player2_phrase);
             compare_phrases(player1_phrase, player2_phrase, match_count, word_count);
-            cout << "You matched " << match_count << " out of " << word_count << " words \n\n";
+            cout << "You matched " << match_count << " out of " << word_count << " words! \n\n";
 
             if (word_count/2 > match_count)
             {
-                cout << "not quite half right, try again with a little more time!\n";
+                cout << "Not quite half right, try again with a little more time!\n";
                 time ++;
                 attempts ++;
             }
 
             else if (word_count/2 <= match_count)
             {
-                cout << "Great job! half or more right! switch players! \n";
-                if (switch_player = true) 
+                cout << "Great job! Half or more right! Switch players! \n";
+                if (switch_player == true) 
                 {
                     switch_player = false;
                 }
@@ -102,7 +105,7 @@ int main()
             else if (attempts == 3) 
             {
                 cout << "Too many attempts! Jeez you stink at this! Switch players! \n";
-                if (switch_player = true)
+                if (switch_player == true)
                 {
                     switch_player = false;
                 }
@@ -110,13 +113,14 @@ int main()
                 {
                     switch_player = true;
                 }
-                repeat_play = true;
-
-                ready_to_go();
-                clear_screen();
+        
 
             }
         }
+        // The core loop condition is edited by the y-n condition checker function.
+        should_loop = collect_continue();
+        repeat_play = true;
+        clear_screen();
     }
 }
 
@@ -139,7 +143,7 @@ void print_welcome()
         << "  7. If more than half match you win, otherwise youll try again \n"
         << "     (ex: 'You got 5 matches out of 10 words, nice job!' \n\n"
         << "  8. After player two wins, or fails two more times, swap players \n\n"
-        << "  9. The game can be played back and forth forever! have 'fun'! \n\n"
+        << "  9. You'll get the chance to quit after each game! have 'fun'! \n\n"
         << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 }
 
@@ -147,7 +151,7 @@ void print_welcome()
 void collect_input(char sentence[])
     // This function intakes a char array and modifies it.
 {
-    cout << "Please enter the sentence: \n\n";
+    cout << "\n >>> ";
     cin.get(sentence, SIZE, '\n');
     cin.ignore(256, '\n');
 }
@@ -183,6 +187,12 @@ void ready_to_go()
 void timed_display(char sentence[SIZE], int time)
     // This is the function that intakes time and a phrase and displays the phrase for the time given.
 {
+    cout << "3...\n";
+    sleep(1);
+    cout << "2...\n";
+    sleep(1);
+    cout << "1...\n";
+    sleep(1);
     cout << "\n\n" <<  sentence << "\n\n";  
     sleep(time);
 }
@@ -265,10 +275,24 @@ void compare_phrases(char phrase1[SIZE], char phrase2[SIZE], int& matches, int& 
             }
         }
     }
+    // Update the arguments with their relevant data pieces.
     matches = match_count;
     words = word_count;
-
 }
 
 
 
+char collect_continue()
+// A simple continue collection function.
+{
+    char y_or_n{};
+    do 
+    {
+    cout << "\nEnter 'y' to play again or 'n' to exit: ";
+    cin >> y_or_n;
+    cin.ignore(100, '\n');
+    y_or_n = tolower(y_or_n);
+    }
+    while (y_or_n != 'y' && y_or_n != 'n');
+    return y_or_n;
+}
