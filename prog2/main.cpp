@@ -1,5 +1,7 @@
 //Simone Scheuer - cs162 - prog2 - simones@pdx.edu - 5/21/24
-//This program is a multiplayer game wherein one user enters a sentance, and a second user attempts to type the contents of that sentance after being shown it for a very short amount of time.
+//This program is a multiplayer game wherein one user enters a sentance, and a second user attempts to type the contents of that sentance after being shown it
+//For a very short amount of time it then compares the phrases and determines the amount of matches.
+//The program uses a single function to compare two phrases collected as arrays and a variety of other functions for timed displaying of screen contents, clearing etc.
 #include <iostream>
 #include <cstring>
 #include <unistd.h>
@@ -31,6 +33,8 @@ int main()
     char player1_name[SIZE]; // A char array containing player1s name, stored here to avoid having to loop through and 'swap'.
     char player2_name[SIZE]; //  A char array containing player1s name, stored here to avoid having to loop through and 'swap'.  
     char should_loop{'y'}; // A char storing the users choice to exit, allowing quitting functionality.
+    float half_matches{0.0};
+    float half_words{0.0};
 
     // Collect player names and clear buffers and screen.
     cout << "Player 1 enter your name: ";
@@ -63,64 +67,60 @@ int main()
         clear_screen();
         ready_to_go();
         clear_screen();
-        
+
         // Loop that controls counting attempts and giving messages based on number of tries.
-        while(repeat_play == false)
+        while(repeat_play = false)
         {
-            timed_display(player1_phrase, time);
-            clear_screen();
-            if (switch_player)
+            if (attempts == 3)
             {
-                cout << "It's " << player2_name << "'s turn to write their best approximation of the sentence!\n";        
+                cout << "Too many attempts! Jeez you stink at this! Switch players! \n \n";
+                switch_player = !switch_player;
+                repeat_play = true;
             }
             else
             {
-                cout << "It's " << player1_name << "'s turn to write their best approximation of the sentence!\n";
-            }       
-            collect_input(player2_phrase);
-            compare_phrases(player1_phrase, player2_phrase, match_count, word_count);
-            cout << "You matched " << match_count << " out of " << word_count << " words! \n\n";
+                timed_display(player1_phrase, time);
+                clear_screen();
 
-            if (word_count/2 > match_count)
-            {
-                cout << "Not quite half right, try again with a little more time!\n";
-                time ++;
-                attempts ++;
-            }
-
-            else if (word_count/2 <= match_count)
-            {
-                cout << "Great job! Half or more right! Switch players! \n";
-                if (switch_player == true) 
+                if (switch_player)
                 {
-                    switch_player = false;
+                    cout << "It's " << player2_name << "'s turn to write their best approximation of the sentence!\n";        
                 }
                 else
                 {
-                    switch_player = true;
+                    cout << "It's " << player1_name << "'s turn to write their best approximation of the sentence!\n";
                 }
-                repeat_play = true;
-            }
 
-            else if (attempts == 3) 
-            {
-                cout << "Too many attempts! Jeez you stink at this! Switch players! \n";
-                if (switch_player == true)
+                collect_input(player2_phrase);
+                compare_phrases(player1_phrase, player2_phrase, match_count, word_count);
+                cout << "You matched " << match_count << " out of " << word_count << " words! \n\n";
+                half_words = static_cast<float>(word_count) / 2;
+
+                if (half_words <= match_count)
                 {
-                    switch_player = false;
+                    cout << "Great job! Half or more right! Switch players! \n";
+                    switch_player = !switch_player;
+                    repeat_play = true;
+                    time = 1;
+                    attempts = 1;
+                    half_words = 0;
+
                 }
-                else
+
+                else if (half_words > match_count)
                 {
-                    switch_player = true;
+                    cout << "Not quite half right, try again with a little more time!\n";
+                    ready_to_go();
+                    time ++;
+                    attempts ++;
+                    clear_screen();
                 }
-        
 
             }
+            // The core loop condition is edited by the y-n condition checker function.
+            should_loop = collect_continue();
+            clear_screen();
         }
-        // The core loop condition is edited by the y-n condition checker function.
-        should_loop = collect_continue();
-        repeat_play = true;
-        clear_screen();
     }
 }
 
@@ -283,15 +283,15 @@ void compare_phrases(char phrase1[SIZE], char phrase2[SIZE], int& matches, int& 
 
 
 char collect_continue()
-// A simple continue collection function.
+    // A simple continue collection function.
 {
     char y_or_n{};
     do 
     {
-    cout << "\nEnter 'y' to play again or 'n' to exit: ";
-    cin >> y_or_n;
-    cin.ignore(100, '\n');
-    y_or_n = tolower(y_or_n);
+        cout << "\nEnter 'y' to play again or 'n' to exit: ";
+        cin >> y_or_n;
+        cin.ignore(100, '\n');
+        y_or_n = tolower(y_or_n);
     }
     while (y_or_n != 'y' && y_or_n != 'n');
     return y_or_n;
