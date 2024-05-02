@@ -33,8 +33,8 @@ int main()
     char player1_name[SIZE]; // A char array containing player1s name, stored here to avoid having to loop through and 'swap'.
     char player2_name[SIZE]; //  A char array containing player1s name, stored here to avoid having to loop through and 'swap'.  
     char should_loop{'y'}; // A char storing the users choice to exit, allowing quitting functionality.
-    float half_matches{0.0};
-    float half_words{0.0};
+    float half_matches{0.0}; // A float to store the divided half of matches, as a float to handle edge cases.
+    float half_words{0.0}; // A float to store the divided half of words, as a float to handle edge cases.
 
     // Collect player names and clear buffers and screen.
     cout << "Player 1 enter your name: ";
@@ -69,11 +69,11 @@ int main()
         clear_screen();
 
         // Loop that controls counting attempts and giving messages based on number of tries.
-        while(repeat_play = false)
+        while(repeat_play == false)
         {
-            if (attempts == 3)
+            if (attempts == 4)
             {
-                cout << "Too many attempts! Jeez you stink at this! Switch players! \n \n";
+                cout << "SIKE! No more attempts! You stink at this! Switch players! \n \n";
                 switch_player = !switch_player;
                 repeat_play = true;
             }
@@ -109,7 +109,7 @@ int main()
 
                 else if (half_words > match_count)
                 {
-                    cout << "Not quite half right, try again with a little more time!\n";
+                    cout << "Not quite half right, " << attempts << "/3 attempts made, try again with a little more time!\n";
                     ready_to_go();
                     time ++;
                     attempts ++;
@@ -117,11 +117,11 @@ int main()
                 }
 
             }
-            // The core loop condition is edited by the y-n condition checker function.
-            should_loop = collect_continue();
-            clear_screen();
         }
+        should_loop = collect_continue();
+        clear_screen();
     }
+    cout << "\nBye! Bye! Thanks for playing!\n";
 }
 
 
@@ -217,7 +217,7 @@ void compare_phrases(char phrase1[SIZE], char phrase2[SIZE], int& matches, int& 
         // Check if the current character is an alphabetic or an apostrophe.
         if (isalpha(phrase1[i]) || phrase1[i] == '\'')
         {
-            // If it is, add it to the held word array and increase the held index.
+            // If it is, add it to the held word array and increase the held index, also lower it to handle case errors.
             phrase1[i] = tolower(phrase1[i]);
             held_word[held_index++] = phrase1[i];
         } 
@@ -240,7 +240,7 @@ void compare_phrases(char phrase1[SIZE], char phrase2[SIZE], int& matches, int& 
                     // Similar to above, if its valid...
                     if (isalpha(phrase2[j]) || phrase2[j] == '\'')
                     {
-                        // Add it to the array.
+                        // Add it to the array, similarly lower each letter to handle case errors.
                         phrase2[j] = tolower(phrase2[j]);
                         compared_word[compared_index++] = phrase2[j];
                     }
