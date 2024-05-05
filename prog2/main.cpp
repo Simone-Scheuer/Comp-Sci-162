@@ -1,7 +1,8 @@
 //Simone Scheuer - cs162 - prog2 - simones@pdx.edu - 5/21/24
-//This program is a multiplayer game wherein one user enters a sentance, and a second user attempts to type the contents of that sentance after being shown it
-//For a very short amount of time it then compares the phrases and determines the amount of matches.
-//The program uses a single function to compare two phrases collected as arrays and a variety of other functions for timed displaying of screen contents, clearing etc.
+//This program is a multiplayer game wherein one user enters a sentance, and a second user attempts to type the contents of that
+//sentance after being shown it for a very short amount of time it then compares the phrases and determines the amount of matches.
+//The program uses a single function to compare two phrases collected as arrays and a variety of other functions for input/ouput, screen clearing, continuing, etc.
+
 #include <iostream>
 #include <cstring>
 #include <unistd.h>
@@ -132,17 +133,17 @@ void print_welcome()
         << "         Welcome to Simone's spectacular memorization minigame!\n"
         << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
         << "         The game needs two people, and is placed like this: \n\n"
-        << "  1. Player one takes the computer and secrety writes a sentence \n"
+        << "  1. Player one takes the computer and secrety writes a sentence. \n"
         << "     (ex: 'hello i love coding hello world on my new computer') \n\n"
-        << "  2. The screen will clear and the computer gets passed to player two \n\n"
-        << "  3. Player two will type yes when they are ready to see the sentance \n\n"
-        << "  4. The sentance will be shown to player two for a very short time \n\n"
-        << "  5. Player two will enter their best approximation of the sentance \n"
+        << "  2. The screen will clear and the computer gets passed to player two. \n\n"
+        << "  3. Player two will type yes when they are ready to see the sentence. \n\n"
+        << "  4. The sentance will be shown to player two for a very short time. \n\n"
+        << "  5. Player two will enter their best approximation of the sentence. \n"
         << "     (ex: 'howdy i love combing baby birds on my new calculator') \n\n"
-        << "  6. The computer will compare the two sentances if any words match \n\n"
-        << "  7. If more than half match you win, otherwise youll try again \n"
+        << "  6. The computer will compare the two sentences, checking matches. \n\n"
+        << "  7. If more than half match you win, otherwise you'll try again. \n"
         << "     (ex: 'You got 5 matches out of 10 words, nice job!' \n\n"
-        << "  8. After player two wins, or fails two more times, swap players \n\n"
+        << "  8. After player two wins, or fails two more times, swap players. \n\n"
         << "  9. You'll get the chance to quit after each game! have 'fun'! \n\n"
         << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 }
@@ -171,7 +172,7 @@ void ready_to_go()
     // This function uses a while loop to error check if the user wants to continue.
 {
     char yes = 'x';
-    cout << "Enter 'y' when you are ready to continue: ";
+    cout << "Enter 'y' when you are ready to see the sentence, once it dissapears you'll type your approximation: ";
     cin >> yes;
     yes = tolower(yes);
     while (yes != 'y')
@@ -249,7 +250,7 @@ void compare_phrases(char phrase1[SIZE], char phrase2[SIZE], int& matches, int& 
                     {
                         // Cut off the word and output debugging message.
                         compared_word[compared_index] = '\0';
-                        cout << "Comparing held word: [" << held_word << "] with compared word: [" << compared_word << "]\n";
+                        // cout << "Comparing held word: [" << held_word << "] with compared word: [" << compared_word << "]\n";
 
                         // If a word was collected...
                         if (compared_index > 0)
@@ -279,7 +280,6 @@ void compare_phrases(char phrase1[SIZE], char phrase2[SIZE], int& matches, int& 
     matches = match_count;
     words = word_count;
 }
-
 
 
 char collect_continue()
