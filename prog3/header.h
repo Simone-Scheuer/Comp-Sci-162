@@ -28,5 +28,8 @@ struct Item
 void print_inventory(Item inventory[], int& num_of_items);
 void menu(Item inventory[], int& num_of_items);
 void clear_screen();
-void create_item(Item& an_item);                                                         
+void create_item(Item& an_item);                                       
 void search_inventory(Item inventory[], int& num_of_items);
+void print_item(Item inventory[], int& index);
+void print_welcome();
+void clear_screen();    

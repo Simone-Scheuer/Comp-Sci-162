@@ -1,9 +1,4 @@
 #include "header.h"
-void print_item(Item inventory[], int& i);
-void print_welcome();
-void search_list();
-void clear_screen();
-
 
 int main() {
     Item inventory[20];  // Creating an instance of Item
@@ -60,6 +55,7 @@ void menu (Item inventory[], int& num_of_items)
         }
         else if (choice == 3)
         {
+            clear_screen();
             search_inventory(inventory, num_of_items);
         }
     } while (choice != 4); 
@@ -75,6 +71,7 @@ void clear_screen()
 void create_item(Item& an_item)
 {
     char sale_status_indicator{'z'};
+    bool is_valid = false;
 
     cout << "\n Please enter item name: ";
     cin.get(an_item.name, NAME, '\n');
@@ -93,16 +90,40 @@ void create_item(Item& an_item)
     cin.ignore(100, '\n');
 
     cout << "\n Please enter item quantity: ";
-    cin >> an_item.quantity;
+    while (!(cin >> an_item.quantity))
+    {
+        cin.clear();
+        cin.ignore(100, '\n');
+        cout << "Invalid input. Please enter a number: ";
+    }
     cin.ignore(100, '\n');
 
     cout << "\n Please enter item price: ";
-    cin >> an_item.price;
+    while (!(cin >> an_item.price))
+    {
+        cin.clear();
+        cin.ignore(100, '\n');
+        cout << "Invalid input. Please enter a number: ";
+    }
     cin.ignore(100, '\n');
 
     cout << "\n Please enter item sale status (y/n): ";
-    cin >> sale_status_indicator;
-    cin.ignore(100, '\n');
+    while (!is_valid)
+    {
+        cin >> sale_status_indicator;
+        sale_status_indicator = tolower(sale_status_indicator);
+        cin.ignore(100, '\n');
+        if (sale_status_indicator == 'y' || sale_status_indicator == 'n')
+        {
+            is_valid = true;
+        }
+        else
+        {
+            cout << "Invalid input. Please Enter 'y' for yes or 'n' for no: ";
+        }
+    }
+
+    an_item.sale = (sale_status_indicator == 'y');
 }
 
 
@@ -144,15 +165,15 @@ void search_inventory(Item inventory[], int& num_of_items)
     }
 }
 
-void print_item(Item inventory[], int& i)
+void print_item(Item inventory[], int& index)
 {
-    cout << "\n Item " << (i + 1) << ":"
-        << "\n Name: " << inventory[i].name
-        << "\n Franchise: " << inventory[i].franchise
-        << "\n Description: " << inventory[i].description
-        << "\n Color: " << inventory[i].color
-        << "\n Quantity: " << inventory[i].quantity
-        << "\n Price: $" << inventory[i].price
-        << "\n Sale: " << (inventory[i].sale ? "Yes" : "No") << "\n"
-        << "-------------------------------------------------\n";
+    cout << "\n Item " << (index + 1) << ":"
+        << "\n Name: " << inventory[index].name
+        << "\n Franchise: " << inventory[index].franchise
+        << "\n Description: " << inventory[index].description
+        << "\n Color: " << inventory[index].color
+        << "\n Quantity: " << inventory[index].quantity
+        << "\n Price: $" << inventory[index].price
+        << "\n Sale: " << (inventory[index].sale ? "Yes" : "No") << "\n"
+        << "-------------------------------------------------";
 }
