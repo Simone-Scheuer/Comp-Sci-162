@@ -1,21 +1,40 @@
 #include "header.h"
 
+// File: main.cpp
+// Author: Simone Scheuer
+// Date: May 4, 2024
+// Description: main file calling core functionality and comsmetic functions.
+
 //Main function to intialize struct array and the counter variable and call the menu.
 int main() {
-    Item inventory[20];  // Creating an instance of Item
+    Item inventory[20];
     int num_of_items{0};
-    print_welcome();
+    num_of_items = load(inventory);
+    print_message(welcome);
     menu(inventory, num_of_items);
-
+    save(inventory, num_of_items);
+    print_message(goodbye);
     return 0;
 }
 
+
 //Uber simple function to clear the screen and print the title.
-void print_welcome()
+void print_message(int message_type)
 {
     clear_screen();
-    cout << "\n Welcome to Mona's Inventory Management Program \n";
-    cout << "---------------------------------------------------\n";
+
+    switch(message_type)
+    {
+        case 1:
+            cout << "\n Welcome to Mona's Inventory Management Program \n";
+            cout << "---------------------------------------------------\n";
+            break;
+
+        case 2:
+            cout << "\n Thanks for using Mona's Inventory Management Program \n";
+            cout << "-------------------------------------------------------\n\n";
+            break;
+    }
 }
 
 //Menu function to act as an looping choice tree and call the other functions.

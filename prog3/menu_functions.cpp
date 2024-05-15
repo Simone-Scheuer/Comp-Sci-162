@@ -1,5 +1,9 @@
 #include "header.h"
 
+// File: menu_functions.cpp
+// Author: Simone Scheuer
+// Date: May 4, 2024
+// Description: File storing the functions to handle each menu choice.
 
 //Function to read in a new item from the user, error check, and update the struct members.
 void create_item(Item& an_item)

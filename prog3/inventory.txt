@@ -1,0 +1,1 @@
+egg~chicken~egg~white~1~false~0
