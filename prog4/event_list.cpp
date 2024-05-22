@@ -1,0 +1,55 @@
+#include "header.h"
+//Event List class function for program 4
+//Simone Scheuer
+//20/5/24
+//This file contains the functions for the event_list class, that make use of the entire array of
+//events, such as reading or displaying all of them and constructing and deconstructing the
+//dynamic array.
+
+event_list::event_list()
+{
+    cout << "How many events would you like to enter: ";
+    cin >> size_of_array;
+    cin.ignore(100, '\n');
+    array = new event[size_of_array];
+    num_of_events = 0;
+}
+
+event_list::~event_list()
+{
+    if (nullptr != array)
+        delete [] array;
+    array = 0;
+    size_of_array = 0;
+    num_of_events = 0;
+}
+
+
+void event_list::read_all()
+{
+    char response = 'y';
+    while (tolower(response) == 'y' && num_of_events < size_of_array)
+    {
+        array[num_of_events].read_event();
+        ++num_of_events;
+        cout << "Again? ";
+        cin >> response;
+        cin.ignore(100, '\n');
+    }
+}
+
+void event_list::display_all()
+{
+    for (int i{0}; i < size_of_array; ++i)
+        array[i].display_event();
+}
+
+void event_list::search_event_list()
+{
+    char check_name[SIZE];
+    cout << "\nEnter an event name to search for: ";
+    cin.get(check_name, 100, '\n');
+    cin.ignore(100, '\n');
+    for (int i{0}; i < size_of_array; i++)
+        array[i].compare_name(check_name);
+}

@@ -37,6 +37,7 @@ void print_message(int message_type)
     }
 }
 
+
 //Menu function to act as an looping choice tree and call the other functions.
 void menu (Item inventory[], int& num_of_items)
 {

@@ -88,7 +88,6 @@ void read_a_movie(movie & a_movie)
     cout << "Please enter the movie title: ";
     cin.get(a_movie.title, TITLE, '\n');
     cin.ignore(100, '\n');
-
     cout << "Enter info about the movie: ";
     cin.get(a_movie.info, INFO, '\n');
     cin.ignore(100, '\n');
