@@ -6,7 +6,9 @@
 
 int main()
 {
-    //print_message(welcome)
+    clear_screen();
+    char welcome[] = "Welcome to Mona's Event Planning Program!";
+    print_message(welcome);
     event_list my_events;  
     int user_choice{0};
 
@@ -28,7 +30,8 @@ int main()
                 break;
             case 4:
                 clear_screen();
-                cout << "goodbye";
+                char goodbye[] = "Thanks for using Mona's Event Planning Program!";
+                print_message(goodbye);
                 break;
         }
 
@@ -51,8 +54,3 @@ void menu(int & user_choice)
     user_choice = integer_checker(min,max,menu_message);
     cin.ignore(100, '\n');
 }
-
-void clear_screen()
-{
-    cout << "\033[2J\033[H"; 
-}                                                                                                  

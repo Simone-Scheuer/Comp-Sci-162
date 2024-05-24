@@ -8,7 +8,7 @@ int integer_checker(int min, int max, char message[])
     int user_input;
     bool flag = true;
     cout << message;
-    while (true)
+    while (flag)
     {
         if (cin >> user_input)
         {
@@ -30,4 +30,26 @@ int integer_checker(int min, int max, char message[])
         }
     }
     return user_input;
+}
+
+void clear_screen()
+{
+    cout << "\033[2J\033[H"; 
+}
+
+void print_message(char message[])
+{
+    int message_length = strlen(message);
+    row_of_tildas(message_length);
+    cout << '\n' << message << '\n';
+    row_of_tildas(message_length);
+    cout << endl;
+}
+
+void row_of_tildas(int length)
+{
+    for (int i{0}; i<length; ++i)
+    {
+        cout << "~";
+    }
 }

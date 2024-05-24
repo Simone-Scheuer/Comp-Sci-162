@@ -48,3 +48,5 @@ class event_list
 void menu(int & user_choice);
 void clear_screen();
 int integer_checker(int min, int max, char message[]);
+void print_message(char message[]);
+void row_of_tildas(int length);
