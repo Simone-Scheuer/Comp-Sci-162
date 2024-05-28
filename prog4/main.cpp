@@ -10,6 +10,7 @@ int main()
     char welcome[] = "Welcome to Mona's Event Planning Program!";
     print_message(welcome);
     event_list my_events;  
+    clear_screen();
     int user_choice{0};
 
     do{
@@ -19,6 +20,7 @@ int main()
             case 1:
                 clear_screen();
                 my_events.read_all();
+                clear_screen();
                 break;
             case 2:
                 clear_screen();
@@ -46,7 +48,8 @@ void menu(int & user_choice)
         << "1. Enter Events" << endl
         << "2. Display Events" << endl
         << "3. Search Events" << endl
-        << "4. Quit Program" << endl;
+        << "4. Quit Program" << endl
+        << "~~~~~~~~~~~~~~~~~" <<endl;
 
     char menu_message[] = "Enter Choice: ";
     int min = 1;

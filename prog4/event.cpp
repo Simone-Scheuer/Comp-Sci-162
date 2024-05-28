@@ -105,5 +105,9 @@ void event::compare_name(char check_name[])
    {
        display_event();
    }
+   else
+   {
+       cout <<"\bNo matches found for " << check_name << ".\n";
+   }
 }
 

@@ -8,8 +8,10 @@
 
 event_list::event_list()
 {
-    cout << "How many events would you like to be able to store:  ";
-    cin >> size_of_array;
+    char dynamic_memory_message[] =  "How many events would you like to store? ";
+    int min_event{0};
+    int max_event{99999};
+    size_of_array = integer_checker(min_event,max_event,dynamic_memory_message);
     cin.ignore(100, '\n');
     array = new event[size_of_array];
     num_of_events = 0;

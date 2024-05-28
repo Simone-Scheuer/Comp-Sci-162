@@ -1,11 +1,10 @@
-#include "list.h"
+#include <iostrean>
+#include <cstring>
+#include <cctype>
+using namespace std;
 
-int calculate_sum(node * head)
-{
-    if (!head)
-        return 0;
+struct Node {
+    int value;
+    Node 
 
-    node * current {head};
-    int sum {0};
 
-    while (current != nullptr && sum <= 100)
