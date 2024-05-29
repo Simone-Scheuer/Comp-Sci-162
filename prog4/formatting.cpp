@@ -3,7 +3,8 @@
 //Simone Scheuer
 //Comp Sci 161
 
-int integer_checker(int min, int max, char message[])
+
+int integer_checker(int min, int max, char message[]) // Int Error Checking Function: intakes a custom range and message and repeatedly error checks the value until it meets the parameters.
 {
     int user_input;
     bool flag = true;
@@ -32,12 +33,14 @@ int integer_checker(int min, int max, char message[])
     return user_input;
 }
 
-void clear_screen()
+
+void clear_screen() // Clear Screen Function: Calls a command to clear the screen fully.
 {
-    cout << "\033[2J\033[H"; 
+    cout << "\033[2J\033[H";  
 }
 
-void print_message(char message[])
+
+void print_message(char message[]) // Title Function: Prints a message with tilda under and overlines.
 {
     int message_length = strlen(message);
     row_of_tildas(message_length);
@@ -46,7 +49,8 @@ void print_message(char message[])
     cout << endl;
 }
 
-void row_of_tildas(int length)
+
+void row_of_tildas(int length) // Tilda line Function: Prints a line of tildas at a specified length.
 {
     for (int i{0}; i<length; ++i)
     {

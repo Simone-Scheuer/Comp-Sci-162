@@ -4,7 +4,8 @@
 //20/5/24
 //This file contains the main function for this program, calling to the other classes and files.
 
-int main()
+
+int main() // Main: Intitializes the dynamic object array, and default variables, and then uses a switch case to control the main functionalities.
 {
     clear_screen();
     char welcome[] = "Welcome to Mona's Event Planning Program!";
@@ -15,12 +16,12 @@ int main()
 
     do{
         menu(user_choice);
+        clear_screen();
         switch(user_choice)
         {
             case 1:
                 clear_screen();
                 my_events.read_all();
-                clear_screen();
                 break;
             case 2:
                 clear_screen();
@@ -41,7 +42,7 @@ int main()
 }
 
 
-void menu(int & user_choice)
+void menu(int & user_choice) // Menu Function: Displays the menu and handles the user input.
 {
    cout << "\nMENU" << endl
         << "~~~~~~~~~~~~~~~~~" <<endl

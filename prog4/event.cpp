@@ -5,7 +5,7 @@
 //This file contains the implementation for the Event class, the first half of the event list
 //Class pair who work together to create a dynamically sized array of events.
 
-event::event()
+event::event() // Constructor: initializes the event class object private members to zero or null values.
 {
     name = nullptr;
     description = nullptr;
@@ -17,7 +17,7 @@ event::event()
     twentyoneplus = false;
 }
 
-event::~event()
+event::~event() // Deconstructor: deallocates dynamically allocated data, and deletes it.
 {
     if (name != nullptr)
         delete [] name;
@@ -33,16 +33,16 @@ event::~event()
     end_date = nullptr;
 }
 
-void event::read_event()
+void event::read_event() // Event Reading Function: Reads in and populates a class object, uses dynamic memory allocation and temp vars to populate char arrays dynamically.
 {
     char temp_name[SIZE];
     char temp_desc[SIZE];
     char temp_start[SIZE];
     char temp_end[SIZE];
     char temp_char = 'z';
-    int temp_price{}, min_price{0}, max_price{99999};
-    int temp_stars{}, min_stars{0}, max_stars{5};
-    int temp_attend{}, min_attend{0}, max_attend{9999999};
+    int min_price{0}, max_price{99999};
+    int min_stars{0}, max_stars{5};
+    int min_attend{0}, max_attend{9999999};
 
     cout << "Please enter the event name: ";
     cin.get(temp_name, SIZE, '\n');
@@ -83,7 +83,8 @@ void event::read_event()
     cin.ignore(100, '\n');
 }
 
-void event::display_event()
+
+void event::display_event() // Display Object Function: Displays a particular event object and all its members.
 {
     if (nullptr == name) return;
     cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl
@@ -99,7 +100,7 @@ void event::display_event()
              cout << "The event is not 21+" << endl;
 }
 
-void event::compare_name(char check_name[])
+void event::compare_name(char check_name[]) // Compare Name Function: Compares a name to its argument and displays it if a match is found.
 {
    if (strcmp(check_name, name) == 0)
    {

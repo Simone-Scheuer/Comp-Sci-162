@@ -6,7 +6,7 @@
 //events, such as reading or displaying all of them and constructing and deconstructing the
 //dynamic array.
 
-event_list::event_list()
+event_list::event_list() // Constructor: initializes the dynamic memory class object array, while error checking it for size.
 {
     char dynamic_memory_message[] =  "How many events would you like to store? ";
     int min_event{0};
@@ -17,7 +17,7 @@ event_list::event_list()
     num_of_events = 0;
 }
 
-event_list::~event_list()
+event_list::~event_list() // Deconstructor: Deallocates the dynamic class object array and nulls the data members.
 {
     if (nullptr != array)
         delete [] array;
@@ -27,7 +27,7 @@ event_list::~event_list()
 }
 
 
-void event_list::read_all()
+void event_list::read_all() // Read In Repeatedly Function: Checks the fullness of the event array, and then repeatedly calls the read in function until the user exits or the array is filled.
 {
     char response = 'y';
     if (num_of_events >= size_of_array)
@@ -47,7 +47,7 @@ void event_list::read_all()
     }
 }
 
-void event_list::display_all()
+void event_list::display_all() // Display All Function: Repeatedly calls the display function for each index of the num of events.
 {
     if (num_of_events  == 0)
     {
@@ -60,7 +60,7 @@ void event_list::display_all()
     }
 }
 
-void event_list::search_event_list()
+void event_list::search_event_list() // Search Function: Intakes a char array to compare to names of events and calls the compare name function at each one.
 {
     if (num_of_events == 0)
     {

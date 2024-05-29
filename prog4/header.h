@@ -1,6 +1,6 @@
 //Header File for Program 4 
 //Simone Scheuer 5/20/24
-//Dynamic Memory Based Event Management System
+//Header for Dynamic Memory Based Event Management System.
 
 #include <iostream>
 #include <cstring>
@@ -9,7 +9,7 @@ using namespace std;
 
 const int SIZE = 200;
 
-class event
+class event //Single instance event class, holding all data parameters and single event handling methods.
 {
     public:
         event();
@@ -30,7 +30,7 @@ class event
 };
 
 
-class event_list
+class event_list //Multi instance class object array handling class, holding meta data parameters and multi event handling methods.
 {
     public:
         event_list();
@@ -45,7 +45,11 @@ class event_list
         int num_of_events;
 };
 
+
+//Main.cpp functions
 void menu(int & user_choice);
+
+//Formatting.cpp functions
 void clear_screen();
 int integer_checker(int min, int max, char message[]);
 void print_message(char message[]);
