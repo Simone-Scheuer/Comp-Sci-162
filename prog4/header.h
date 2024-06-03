@@ -1,5 +1,6 @@
 //Header File for Program 4 
-//Simone Scheuer 5/20/24
+//Simone Scheuer
+//5/20/24
 //Header for Dynamic Memory Based Event Management System.
 
 #include <iostream>

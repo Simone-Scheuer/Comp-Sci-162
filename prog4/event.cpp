@@ -5,6 +5,7 @@
 //This file contains the implementation for the Event class, the first half of the event list
 //Class pair who work together to create a dynamically sized array of events.
 
+
 event::event() // Constructor: initializes the event class object private members to zero or null values.
 {
     name = nullptr;
@@ -16,6 +17,7 @@ event::event() // Constructor: initializes the event class object private member
     attendence = 0;
     twentyoneplus = false;
 }
+
 
 event::~event() // Deconstructor: deallocates dynamically allocated data, and deletes it.
 {
@@ -99,6 +101,7 @@ void event::display_event() // Display Object Function: Displays a particular ev
          else
              cout << "The event is not 21+" << endl;
 }
+
 
 void event::compare_name(char check_name[]) // Compare Name Function: Compares a name to its argument and displays it if a match is found.
 {

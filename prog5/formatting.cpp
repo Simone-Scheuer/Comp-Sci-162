@@ -6,7 +6,7 @@
 //Simone Scheuer
 
 
-int integer_checker(int min, int max, char message[]) // Int Error Checking Function: intakes a custom range and message and repeatedly error checks the value until it meets the parameters.
+int check_integer(int min, int max, char message[]) // Int Error Checking Function: intakes a custom range and message and repeatedly error checks the value until it meets the parameters.
 {
     int user_input;
     bool flag = true;
